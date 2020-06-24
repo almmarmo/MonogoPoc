@@ -14,6 +14,7 @@ namespace MonogoPoc
             const string SERVER = "localhost";
             const string DATABASE = "poc";
             const string COLLECTION = "Grid";
+            const bool USE_OLDFIELD = true;
 
             var serializer = new MongoDB.Bson.Serialization.Serializers.DateTimeSerializer(DateTimeKind.Local);
             BsonSerializer.RegisterSerializer<DateTime>(serializer);
@@ -43,9 +44,9 @@ namespace MonogoPoc
                         Console.WriteLine($"{clauses.AsBsonArray.Count} Clauses founded.");
                         foreach (var clause in clauses.AsBsonArray)
                         {
-                            if (clause.ConvertField<DateTime, BsonDateTime>("StartDate", "OldStartDate", x => DateTime.Parse(x)))
+                            if (clause.ConvertField<DateTime, BsonDateTime>("StartDate", USE_OLDFIELD ? "OldStartDate" : null, x => DateTime.Parse(x)))
                                 converted = true;
-                            if (clause.ConvertField<DateTime, BsonDateTime>("EndDate", "OldEndDate", x => DateTime.Parse(x)))
+                            if (clause.ConvertField<DateTime, BsonDateTime>("EndDate", USE_OLDFIELD ? "OldEndDate" : null, x => DateTime.Parse(x)))
                                 converted = true;
                         }
                     }

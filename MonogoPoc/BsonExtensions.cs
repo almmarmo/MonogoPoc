@@ -14,7 +14,8 @@ namespace MonogoPoc
             {
                 string fieldValue = owner[fieldName].AsString;
                 owner[fieldName] = BsonValue.Create(parse.Invoke(fieldValue));
-                owner[oldFieldName] = fieldValue;
+                if(oldFieldName != null)
+                    owner[oldFieldName] = fieldValue;
                 Console.WriteLine($"Converting {fieldName}:{fieldValue} => {owner[fieldName]}.");
                 converted = true;
             }
